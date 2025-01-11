@@ -15,8 +15,8 @@ A simple script to read file paths, collect their content, and format it into a 
 
 ## Usage
 
-1. Create a file named `source_files.txt`.
-2. Add file paths (one per line) to `source_files.txt`.
+1. Open the provided `source_files.txt` file.
+2. Update it with your file paths (one per line) as needed.
 3. Run the script:
 
     ```bash
