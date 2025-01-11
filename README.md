@@ -1,6 +1,6 @@
 # PreparedaCode
 
-A simple script to read file paths, collect content, and save it to an output file.
+A simple script to read file paths, collect their content, and format it into a single output file—perfectly prepared to feed into a language model (LLM).
 
 ## Setup
 
@@ -29,3 +29,5 @@ A simple script to read file paths, collect content, and save it to an output fi
 
 - Ensure the file paths in `source_files.txt` point to valid, existing files.
 - Lines in `source_files.txt` that are empty or point to non-existent files will be skipped.
+
+This script makes it easy to consolidate multiple files into a single, LLM-friendly format. 🚀
