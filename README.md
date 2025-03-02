@@ -16,7 +16,7 @@ A simple script to read file paths, collect their content, and format it into a 
 ## Usage
 
 1. Open the provided `source_files.txt` file.
-2. Update it with your file paths (one per line) as needed.
+2. Update it with your file or directory paths (one per line) as needed.
 3. Run the script:
 
     ```bash
@@ -27,7 +27,8 @@ A simple script to read file paths, collect their content, and format it into a 
 
 ## Notes
 
-- Ensure the file paths in `source_files.txt` point to valid, existing files.
-- Lines in `source_files.txt` that are empty or point to non-existent files will be skipped.
+- Ensure the file paths in `source_files.txt` point to valid, existing files or directories.
+- If a directory path is provided, all files within that directory (including subdirectories) will be recursively processed.
+- Lines in `source_files.txt` that are empty or point to non-existent files/directories will be skipped.
 
 This script makes it easy to consolidate multiple files into a single, LLM-friendly format. 🚀

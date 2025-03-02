@@ -3,6 +3,7 @@ import os
 def get_file_content(file_path):
     """
     Reads and returns the content of the given file path.
+    Skips binary files to avoid encoding errors.
     
     Parameters:
         file_path (str): The path to the file.
@@ -10,16 +11,30 @@ def get_file_content(file_path):
     Returns:
         str or None: The content of the file, or None if an error occurs.
     """
+    # Skip common binary file extensions
+    binary_extensions = ['.png', '.jpg', '.jpeg', '.gif', '.ico', '.woff', '.woff2', 
+                        '.ttf', '.eot', '.mp3', '.mp4', '.avi', '.mov', '.pdf', 
+                        '.zip', '.gz', '.tar', '.pyc', '.exe', '.dll', '.so']
+    
+    file_extension = os.path.splitext(file_path)[1].lower()
+    if file_extension in binary_extensions:
+        print(f"Skipping binary file: {file_path}")
+        return None
+    
     try:
         with open(file_path, 'r', encoding='utf-8') as file:
             return file.read()
+    except UnicodeDecodeError:
+        print(f"Skipping likely binary file (decode error): {file_path}")
+        return None
     except Exception as e:
         print(f"Error reading '{file_path}': {e}")
         return None
 
 def read_file_paths(filepath="source_files.txt"):
     """
-    Reads file paths from a specified text file. Each line should contain one file path.
+    Reads file paths from a specified text file. Each line should contain one file path or directory path.
+    If a line contains a directory path, all files within that directory (and subdirectories) will be included.
     
     Parameters:
         filepath (str): The path to the file containing file paths.
@@ -38,10 +53,21 @@ def read_file_paths(filepath="source_files.txt"):
             if not path:
                 print(f"Line {line_number} in '{filepath}' is empty. Skipping.")
                 continue
-            if not os.path.isfile(path):
-                print(f"Line {line_number}: The path '{path}' does not point to a valid file. Skipping.")
+                
+            if os.path.isfile(path):
+                # If the path is a file, add it directly
+                file_paths.append(path)
+            elif os.path.isdir(path):
+                # If the path is a directory, collect all files recursively
+                print(f"Line {line_number}: Processing directory '{path}'")
+                for root, _, files in os.walk(path):
+                    for file in files:
+                        full_path = os.path.join(root, file)
+                        file_paths.append(full_path)
+                        print(f"  - Added: {full_path}")
+            else:
+                print(f"Line {line_number}: The path '{path}' does not point to a valid file or directory. Skipping.")
                 continue
-            file_paths.append(path)
     
     return file_paths
 
